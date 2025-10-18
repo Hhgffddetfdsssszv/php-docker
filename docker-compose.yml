@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   php-runtime:
     image: livecodesvip/php-runtime:latest
@@ -10,9 +9,17 @@ services:
       - "5090:8080"
     environment:
       - ADMIN_USER=admin
-      - ADMIN_PASS=fengqing
+      - ADMIN_PASS=123456
     volumes:
       - php-runtime_repo:/var/www/repo
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: php-runtime --cleanup --interval 3600
 
 volumes:
   php-runtime_repo:
